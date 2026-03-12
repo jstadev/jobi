@@ -1,63 +1,46 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import * as Yup from "yup";
-import { Resolver, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import ErrorMsg from "../common/error-msg";
 import icon from "@/assets/images/icon/icon_60.svg";
+import { useAuth } from "@/context/AuthContext";
 
-// form data type
 type IFormData = {
   name: string;
   email: string;
   password: string;
+  agreed: boolean;
 };
 
-// schema
-const schema = Yup.object().shape({
-  name: Yup.string().required().label("Name"),
-  email: Yup.string().required().email().label("Email"),
-  password: Yup.string().required().min(6).label("Password"),
-});
-// resolver
-const resolver: Resolver<IFormData> = async (values) => {
-  return {
-    values: values.name ? values : {},
-    errors: !values.name
-      ? {
-        name: {
-          type: "required",
-          message: "Name is required.",
-        },
-        email: {
-          type: "required",
-          message: "Email is required.",
-        },
-        password: {
-          type: "required",
-          message: "Password is required.",
-        }
-      }
-      : {},
-  };
+type Props = {
+  role: "candidate" | "employer";
 };
 
-const RegisterForm = () => {
-  const [showPass, setShowPass] = useState<boolean>(false);
-  // react hook form
+const RegisterForm = ({ role }: Props) => {
+  const [showPass, setShowPass] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const { register: registerUser } = useAuth();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<IFormData>({ resolver });
-  // on submit
-  const onSubmit = (data: IFormData) => {
-    if (data) {
-      alert("Register successfully!");
+  } = useForm<IFormData>();
+
+  const onSubmit = async (data: IFormData) => {
+    setIsLoading(true);
+    try {
+      await registerUser(data.name, data.email, data.password, role);
+      reset();
+    } catch {
+      // error already shown via toast
+    } finally {
+      setIsLoading(false);
     }
-    reset();
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="row">
@@ -67,8 +50,7 @@ const RegisterForm = () => {
             <input
               type="text"
               placeholder="James Brower"
-              {...register("name", { required: `Name is required!` })}
-              name="name"
+              {...register("name", { required: "Name is required!" })}
             />
             <div className="help-block with-errors">
               <ErrorMsg msg={errors.name?.message!} />
@@ -81,8 +63,7 @@ const RegisterForm = () => {
             <input
               type="email"
               placeholder="james@example.com"
-              {...register("email", { required: `Email is required!` })}
-              name="email"
+              {...register("email", { required: "Email is required!" })}
             />
             <div className="help-block with-errors">
               <ErrorMsg msg={errors.email?.message!} />
@@ -93,16 +74,15 @@ const RegisterForm = () => {
           <div className="input-group-meta position-relative mb-20">
             <label>Password*</label>
             <input
-              type={`${showPass ? "text" : "password"}`}
+              type={showPass ? "text" : "password"}
               placeholder="Enter Password"
               className="pass_log_id"
-              {...register("password", { required: `Password is required!` })}
-              name="password"
+              {...register("password", {
+                required: "Password is required!",
+                minLength: { value: 6, message: "Min 6 characters" },
+              })}
             />
-            <span
-              className="placeholder_icon"
-              onClick={() => setShowPass(!showPass)}
-            >
+            <span className="placeholder_icon" onClick={() => setShowPass(!showPass)}>
               <span className={`passVicon ${showPass ? "eye-slash" : ""}`}>
                 <Image src={icon} alt="pass-icon" />
               </span>
@@ -117,19 +97,27 @@ const RegisterForm = () => {
             <div>
               <input
                 type="checkbox"
-                name="remember"
+                id="register-agree"
+                {...register("agreed", { required: "You must agree to the terms" })}
               />
-              <label htmlFor="remember">
+              <label htmlFor="register-agree">
                 By hitting the Register button, you agree to the{" "}
                 <a href="#">Terms conditions</a> &{" "}
                 <a href="#">Privacy Policy</a>
               </label>
             </div>
           </div>
+          <div className="help-block with-errors">
+            <ErrorMsg msg={errors.agreed?.message!} />
+          </div>
         </div>
         <div className="col-12">
-          <button type="submit" className="btn-eleven fw-500 tran3s d-block mt-20">
-            Register
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="btn-eleven fw-500 tran3s d-block mt-20"
+          >
+            {isLoading ? "Creating account..." : "Register"}
           </button>
         </div>
       </div>

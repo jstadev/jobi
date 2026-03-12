@@ -4,6 +4,7 @@ import localFont from 'next/font/local';
 import { EB_Garamond } from "next/font/google";
 import BackToTopCom from "./components/common/back-to-top-com";
 import { Providers } from "@/redux/provider";
+import { AuthProvider } from "@/context/AuthContext";
 
 const gordita = localFont({
   src: [
@@ -54,7 +55,9 @@ export default function RootLayout({
       </head>
       <body suppressHydrationWarning={true} className={`${gordita.variable} ${garamond.variable}`}>
         <Providers>
-          {children}
+          <AuthProvider>
+            {children}
+          </AuthProvider>
         </Providers>
         <BackToTopCom />
       </body>

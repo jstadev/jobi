@@ -1,80 +1,61 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import slugify from "slugify";
 import FilterArea from "../filter/filter-area";
-import job_data from "@/data/job-data";
-import ListItemTwo from "./list-item-2";
-import { IJobType } from "@/types/job-data-type";
 import Pagination from "@/ui/pagination";
-import JobGridItem from "../grid/job-grid-item";
-import { useAppSelector } from "@/redux/hook";
 import NiceSelect from "@/ui/nice-select";
+import { useAppSelector } from "@/redux/hook";
+import { IJobDB } from "@/types/job-db-type";
+import JobGridItemDB from "../grid/job-grid-item-db";
+import ListItemDB from "./list-item-db";
 
-
-const JobListThree = ({ itemsPerPage,grid_style=false }: { itemsPerPage: number;grid_style?:boolean }) => {
-  let all_jobs = job_data;
-  const maxPrice = job_data.reduce((max, job) => {
-    return job.salary > max ? job.salary : max;
-  }, 0);
-  const { category, experience, job_type, location, tags } = useAppSelector(
-    (state) => state.filter
-  );
-  const [currentItems, setCurrentItems] = useState<IJobType[] | null>(null);
-  const [filterItems, setFilterItems] = useState<IJobType[]>([]);
+const JobListThree = ({ itemsPerPage, grid_style = false }: { itemsPerPage: number; grid_style?: boolean }) => {
+  const { category, experience, job_type, location, tags } = useAppSelector((state) => state.filter);
+  const [allJobs, setAllJobs] = useState<IJobDB[]>([]);
+  const [filterItems, setFilterItems] = useState<IJobDB[]>([]);
+  const [currentItems, setCurrentItems] = useState<IJobDB[]>([]);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
-  const [jobType, setJobType] = useState(grid_style ?"grid" : "list");
-  const [priceValue, setPriceValue] = useState([0, maxPrice]);
-  const [shortValue, setShortValue] = useState('');
+  const [jobViewType, setJobViewType] = useState(grid_style ? "grid" : "list");
+  const [priceValue, setPriceValue] = useState([0, 10000]);
+  const [sortValue, setSortValue] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Filter the job_data array based on the selected filters
-    let filteredData = all_jobs
-      .filter((item) => category.length !== 0 ? category.some((c) => item.category.includes(c)) : true)
-      .filter((item) =>
-        experience.length !== 0
-          ? experience.some((e) => item.experience.trim().toLowerCase() === e.trim().toLowerCase()) : true
-      )
-      .filter((item) => (job_type ? item.duration === job_type : true))
-      .filter((l) => location ? slugify(l.location.split(',').join('-').toLowerCase(),'-') === location : true)
-      .filter((item) => tags.length !== 0 ? tags.some((t) => item?.tags?.includes(t)) : true)
-      .filter((j) => j.salary >= priceValue[0] && j.salary <= priceValue[1]);
+    fetch("/api/jobs?limit=100")
+      .then((r) => r.json())
+      .then((data) => {
+        setAllJobs(data.jobs || []);
+        const maxSalary = (data.jobs || []).reduce((max: number, j: IJobDB) => Math.max(max, j.salary_max || 0), 0);
+        setPriceValue([0, maxSalary || 10000]);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
 
-      if (shortValue === 'price-low-to-high') {
-        filteredData = filteredData.slice()
-          .sort((a, b) => Number(a.salary) - Number(b.salary))
-      }
-    
-      if (shortValue === 'price-high-to-low') {
-        filteredData = filteredData.slice()
-          .sort((a, b) => Number(b.salary) - Number(a.salary));
-      }
+  useEffect(() => {
+    let filtered = allJobs
+      .filter((j) => (category.length ? category.some((c) => j.categories?.includes(c)) : true))
+      .filter((j) => (experience.length ? experience.some((e) => j.experience?.toLowerCase() === e.toLowerCase()) : true))
+      .filter((j) => (job_type ? j.job_type === job_type : true))
+      .filter((j) => (location ? j.location?.toLowerCase().includes(location.toLowerCase()) : true))
+      .filter((j) => (tags.length ? tags.some((t) => j.tags?.includes(t)) : true))
+      .filter((j) => (j.salary_min ?? 0) >= priceValue[0] && (j.salary_max ?? 0) <= priceValue[1]);
+
+    if (sortValue === "price-low-to-high") filtered = [...filtered].sort((a, b) => a.salary_min - b.salary_min);
+    if (sortValue === "price-high-to-low") filtered = [...filtered].sort((a, b) => b.salary_min - a.salary_min);
+
     const endOffset = itemOffset + itemsPerPage;
-    setFilterItems(filteredData)
-    setCurrentItems(filteredData.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(filteredData.length / itemsPerPage));
-  }, [
-    itemOffset,
-    itemsPerPage,
-    category,
-    experience,
-    job_type,
-    location,
-    tags,
-    all_jobs,
-    priceValue,
-    shortValue
-  ]);
-
+    setFilterItems(filtered);
+    setCurrentItems(filtered.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(filtered.length / itemsPerPage));
+  }, [allJobs, category, experience, job_type, location, tags, priceValue, sortValue, itemOffset, itemsPerPage]);
 
   const handlePageClick = (event: { selected: number }) => {
-    const newOffset = (event.selected * itemsPerPage) % all_jobs.length;
-    setItemOffset(newOffset);
+    setItemOffset((event.selected * itemsPerPage) % Math.max(filterItems.length, 1));
   };
-// handleShort
-const handleShort = (item: { value: string; label: string }) => {
-  setShortValue(item.value)
-}
+
+  const maxPrice = allJobs.reduce((max, j) => Math.max(max, j.salary_max || 0), 0) || 10000;
+
   return (
     <section className="job-listing-three pt-110 lg-pt-80 pb-160 xl-pb-150 lg-pb-80">
       <div className="container">
@@ -86,92 +67,70 @@ const handleShort = (item: { value: string; label: string }) => {
               data-bs-toggle="offcanvas"
               data-bs-target="#filteroffcanvas"
             >
-              <i className="bi bi-funnel"></i>
-              Filter
+              <i className="bi bi-funnel"></i> Filter
             </button>
-            {/* filter area start */}
             <FilterArea priceValue={priceValue} setPriceValue={setPriceValue} maxPrice={maxPrice} />
-            {/* filter area end */}
           </div>
 
           <div className="col-xl-9 col-lg-8">
             <div className="job-post-item-wrapper ms-xxl-5 ms-xl-3">
               <div className="upper-filter d-flex justify-content-between align-items-center mb-20">
                 <div className="total-job-found">
-                  All <span className="text-dark">{filterItems.length}</span> jobs
-                  found
+                  All <span className="text-dark">{filterItems.length}</span> jobs found
                 </div>
                 <div className="d-flex align-items-center">
                   <div className="short-filter d-flex align-items-center">
-                    <div className="text-dark fw-500 me-2">Short:</div>
+                    <div className="text-dark fw-500 me-2">Sort:</div>
                     <NiceSelect
                       options={[
-                        {value:'',label:'Price Short'},
-                        {value:'price-low-to-high',label:'low to high'},
-                        {value:'price-high-to-low',label:'High to low'},
+                        { value: "", label: "Default" },
+                        { value: "price-low-to-high", label: "Salary Low to High" },
+                        { value: "price-high-to-low", label: "Salary High to Low" },
                       ]}
                       defaultCurrent={0}
-                      onChange={(item) => handleShort(item)}
-                      name="Price Short"
+                      onChange={(item) => setSortValue(item.value)}
+                      name="Sort"
                     />
                   </div>
-                  <button
-                    onClick={() => setJobType("list")}
-                    className={`style-changer-btn text-center rounded-circle tran3s ms-2 list-btn 
-                    ${jobType === "grid" ? "active" : ""}`}
-                    title="Active List"
-                  >
+                  <button onClick={() => setJobViewType("list")} className={`style-changer-btn text-center rounded-circle tran3s ms-2 list-btn ${jobViewType === "grid" ? "active" : ""}`}>
                     <i className="bi bi-list"></i>
                   </button>
-                  <button
-                    onClick={() => setJobType("grid")}
-                    className={`style-changer-btn text-center rounded-circle tran3s ms-2 grid-btn 
-                    ${jobType === "list" ? "active" : ""}`}
-                    title="Active Grid"
-                  >
+                  <button onClick={() => setJobViewType("grid")} className={`style-changer-btn text-center rounded-circle tran3s ms-2 grid-btn ${jobViewType === "list" ? "active" : ""}`}>
                     <i className="bi bi-grid"></i>
                   </button>
                 </div>
               </div>
-              <div
-                className={`accordion-box list-style ${jobType === "list" ? "show" : ""}`}
-              >
-                {currentItems &&
-                  currentItems.map((job) => (
-                    <ListItemTwo key={job.id} item={job} />
-                  ))}
-              </div>
 
-              <div
-                className={`accordion-box grid-style ${jobType === "grid" ? "show" : ""}`}
-              >
-                <div className="row">
-                  {currentItems &&
-                    currentItems.map((job) => (
-                      <div key={job.id} className="col-sm-6 mb-30">
-                        <JobGridItem item={job} />
-                      </div>
-                    ))}
-                </div>
-              </div>
+              {loading ? (
+                <div className="text-center py-5">Loading jobs...</div>
+              ) : currentItems.length === 0 ? (
+                <div className="text-center py-5">No jobs found.</div>
+              ) : (
+                <>
+                  <div className={`accordion-box list-style ${jobViewType === "list" ? "show" : ""}`}>
+                    {currentItems.map((job) => <ListItemDB key={job.id} item={job} />)}
+                  </div>
+                  <div className={`accordion-box grid-style ${jobViewType === "grid" ? "show" : ""}`}>
+                    <div className="row">
+                      {currentItems.map((job) => (
+                        <div key={job.id} className="col-sm-6 mb-30">
+                          <JobGridItemDB item={job} />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
 
-              {currentItems && (
+              {currentItems.length > 0 && (
                 <div className="pt-30 lg-pt-20 d-sm-flex align-items-center justify-content-between">
                   <p className="m0 order-sm-last text-center text-sm-start xs-pb-20">
-                    Showing{" "}
-                    <span className="text-dark fw-500">{itemOffset + 1}</span>{" "}
-                    to{" "}
-                    <span className="text-dark fw-500">
-                      {Math.min(itemOffset + itemsPerPage, currentItems.length)}
-                    </span>{" "}
-                    of{" "}
+                    Showing <span className="text-dark fw-500">{itemOffset + 1}</span> to{" "}
+                    <span className="text-dark fw-500">{Math.min(itemOffset + itemsPerPage, filterItems.length)}</span> of{" "}
                     <span className="text-dark fw-500">{filterItems.length}</span>
                   </p>
                   {filterItems.length > itemsPerPage && (
-                    <Pagination
-                      pageCount={pageCount}
-                      handlePageClick={handlePageClick}
-                    />
+                    <Pagination pageCount={pageCount} handlePageClick={handlePageClick} />
                   )}
                 </div>
               )}

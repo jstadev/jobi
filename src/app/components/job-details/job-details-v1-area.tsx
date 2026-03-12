@@ -1,6 +1,7 @@
 import React from 'react';
 import { IJobType } from '@/types/job-data-type';
 import Image from 'next/image';
+import ApplyButton from './apply-button';
 
 const JobDetailsV1Area = ({job}:{job:IJobType}) => {
   return (
@@ -125,7 +126,7 @@ const JobDetailsV1Area = ({job}:{job:IJobType}) => {
 									<a key={i} href="#">{t}</a>
 									))}
 								</div>
-								<a href="#" className="btn-one w-100 mt-25">Apply Now</a>
+								<ApplyButton jobId={String(job.id)} />
 							</div>
 						</div>
 					</div>

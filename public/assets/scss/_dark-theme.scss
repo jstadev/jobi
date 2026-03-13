@@ -1,0 +1,871 @@
+// ============================================================
+// JOBI — DARK BLUE THEME
+// ============================================================
+
+:root {
+  --blue:        #2563EB;
+  --blue-light:  #60A5FA;
+  --blue-dark:   #1D4ED8;
+  --blue-glow:   rgba(37, 99, 235, 0.35);
+  --bg-body:     #080d1a;
+  --bg-sec:      #0c1222;
+  --bg-card:     rgba(255,255,255,0.04);
+  --bg-card-hov: rgba(255,255,255,0.08);
+  --border:      rgba(255,255,255,0.08);
+  --border-hov:  rgba(37,99,235,0.55);
+  --text:        #e2e8f0;
+  --text-dim:    rgba(226,232,240,0.6);
+  --radius:      16px;
+  --glass:       blur(14px) saturate(160%);
+}
+
+// ─── BASE ────────────────────────────────────────────────────
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg-body); }
+::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 4px; }
+
+body {
+  background: var(--bg-body) !important;
+  color: var(--text) !important;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 20% -10%, rgba(37,99,235,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 100%, rgba(37,99,235,0.12) 0%, transparent 60%);
+  background-attachment: fixed;
+}
+
+h1,h2,h3,h4,h5,h6,
+.h1,.h2,.h3,.h4,.h5,.h6 {
+  color: #fff !important;
+}
+
+p, li, span, label, td, th { color: var(--text-dim); }
+
+a { color: var(--blue-light); }
+a:hover { color: #fff; }
+
+// ─── HEADER ──────────────────────────────────────────────────
+.theme-main-menu {
+  background: rgba(8,13,26,0.7) !important;
+  backdrop-filter: var(--glass);
+  -webkit-backdrop-filter: var(--glass);
+  border-bottom: 1px solid var(--border);
+  padding: 18px 40px !important;
+
+  &.fixed {
+    background: rgba(8,13,26,0.92) !important;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4) !important;
+  }
+}
+
+.navbar .nav-item .nav-link { color: var(--text) !important; }
+.navbar .nav-item:hover .nav-link { color: var(--blue-light) !important; }
+
+.navbar .dropdown-menu {
+  background: rgba(12,18,34,0.97) !important;
+  backdrop-filter: var(--glass);
+  border: 1px solid var(--border) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5) !important;
+  padding: 10px !important;
+}
+
+.navbar .dropdown-menu .dropdown-item {
+  color: var(--text) !important;
+  border-radius: 8px;
+  &:hover { background: rgba(37,99,235,0.15) !important; color: #fff !important; }
+}
+
+.navbar-toggler { background: var(--blue) !important; }
+.navbar-toggler::before, .navbar-toggler::after,
+.navbar-toggler span { background: #fff !important; }
+
+.login-btn-one {
+  color: var(--text) !important;
+  border: 1px solid var(--border);
+  padding: 8px 20px !important;
+  border-radius: 8px;
+  transition: all 0.2s;
+  &:hover { border-color: var(--blue) !important; color: #fff !important; }
+}
+
+.job-post-btn {
+  background: transparent !important;
+  border: 1px solid var(--blue) !important;
+  color: var(--blue-light) !important;
+  border-radius: 8px !important;
+  padding: 8px 20px !important;
+  &:hover { background: var(--blue) !important; color: #fff !important; }
+}
+
+.mega-menu-title { color: var(--blue-light) !important; }
+
+// ─── BUTTONS ─────────────────────────────────────────────────
+.btn-one {
+  background: linear-gradient(135deg, var(--blue), var(--blue-dark)) !important;
+  color: #fff !important;
+  border-radius: 10px !important;
+  border: none !important;
+  box-shadow: 0 4px 20px var(--blue-glow);
+  transition: all 0.3s !important;
+  &:hover {
+    background: linear-gradient(135deg, #3b82f6, var(--blue)) !important;
+    box-shadow: 0 6px 28px rgba(37,99,235,0.5) !important;
+    transform: translateY(-1px);
+    color: #fff !important;
+  }
+}
+
+.btn-two {
+  background: transparent !important;
+  color: var(--blue-light) !important;
+  border: 1px solid var(--blue) !important;
+  border-radius: 10px !important;
+  &:hover {
+    background: var(--blue) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 20px var(--blue-glow) !important;
+  }
+}
+
+.btn-eleven, .dash-btn-two {
+  background: linear-gradient(135deg, var(--blue), var(--blue-dark)) !important;
+  color: #fff !important;
+  border-radius: 10px !important;
+  box-shadow: 0 4px 20px var(--blue-glow);
+  &:hover { box-shadow: 0 6px 28px rgba(37,99,235,0.5) !important; }
+}
+
+.dash-btn-one {
+  background: transparent !important;
+  border: 1px solid var(--blue) !important;
+  color: var(--blue-light) !important;
+  border-radius: 8px !important;
+  &:hover { background: var(--blue) !important; color: #fff !important; }
+}
+
+.dash-cancel-btn {
+  border: 1px solid var(--border) !important;
+  color: var(--text-dim) !important;
+  border-radius: 8px !important;
+  background: transparent !important;
+  &:hover { border-color: #ef4444 !important; color: #ef4444 !important; }
+}
+
+// ─── HERO BANNER ─────────────────────────────────────────────
+.hero-banner-one {
+  background: linear-gradient(135deg, #060b18 0%, #0d1627 40%, #0a1535 100%) !important;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(37,99,235,0.2) 0%, transparent 70%);
+    top: -100px; right: -100px; border-radius: 50%;
+    pointer-events: none;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(37,99,235,0.12) 0%, transparent 70%);
+    bottom: -50px; left: -50px; border-radius: 50%;
+    pointer-events: none;
+  }
+
+  h1 { color: #fff !important; }
+  h1 span { color: var(--blue-light) !important; }
+
+  .shape_01, .shape_02 { opacity: 0.06; }
+}
+
+// ─── SEARCH FORM ─────────────────────────────────────────────
+.job-search-one form {
+  background: rgba(255,255,255,0.05) !important;
+  backdrop-filter: var(--glass);
+  -webkit-backdrop-filter: var(--glass);
+  border: 1px solid var(--border) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.3) !important;
+
+  .input-box {
+    border-left: 1px solid var(--border) !important;
+    .label { color: var(--text-dim) !important; }
+    .keyword {
+      background: transparent !important;
+      color: #fff !important;
+      &::placeholder { color: rgba(255,255,255,0.3); }
+    }
+  }
+
+  .nice-select {
+    background: transparent !important;
+    border: none !important;
+    color: #fff !important;
+    .option { color: #000; }
+  }
+
+  .search-btn {
+    background: linear-gradient(135deg, var(--blue), var(--blue-dark)) !important;
+    color: #fff !important;
+    border-radius: 0 14px 14px 0 !important;
+    &:hover { background: linear-gradient(135deg, #3b82f6, var(--blue)) !important; }
+  }
+}
+
+.job-search-one .tags li a { color: rgba(255,255,255,0.5) !important; }
+.job-search-one .tags li a:hover { color: #fff !important; }
+
+// ─── SECTIONS BG ─────────────────────────────────────────────
+section, .bg-color, .light-bg-color,
+.category-section-one,
+.job-listing-three,
+.feedback-section-one,
+.blog-section-one,
+.fancy-banner-one,
+.job-portal-intro,
+.registration-section {
+  background: transparent !important;
+}
+
+.bg-light, .bg-white { background: transparent !important; }
+
+// ─── CATEGORY CARDS ──────────────────────────────────────────
+.card-style-one .wrapper {
+  background: var(--bg-card) !important;
+  backdrop-filter: var(--glass);
+  -webkit-backdrop-filter: var(--glass);
+  border: 1px solid var(--border) !important;
+  border-radius: 20px !important;
+  transition: all 0.3s ease !important;
+
+  .title { color: #fff !important; }
+  .total-job { color: var(--text-dim) !important; }
+
+  &:hover, &.active {
+    background: rgba(37,99,235,0.15) !important;
+    border-color: var(--border-hov) !important;
+    box-shadow: 0 0 0 1px var(--blue), 0 8px 30px var(--blue-glow) !important;
+    transform: translateY(-4px) !important;
+  }
+}
+
+// ─── JOB LISTING CARDS ───────────────────────────────────────
+.job-list-one {
+  background: var(--bg-card) !important;
+  backdrop-filter: var(--glass);
+  -webkit-backdrop-filter: var(--glass);
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  padding: 20px 24px !important;
+  transition: all 0.3s ease !important;
+
+  &:hover {
+    background: var(--bg-card-hov) !important;
+    border-color: var(--border-hov) !important;
+    box-shadow: 0 0 0 1px rgba(37,99,235,0.4), 0 12px 40px rgba(0,0,0,0.3) !important;
+    transform: translateY(-3px) !important;
+  }
+
+  .title { color: #fff !important; font-weight: 600; }
+  .company-name { color: var(--text-dim) !important; }
+  .job-duration { color: var(--blue-light) !important; }
+  .job-location a { color: var(--text-dim) !important; }
+  .job-salary .text-dark { color: #fff !important; }
+}
+
+// ─── FILTER PANEL ────────────────────────────────────────────
+.filter-area-tab {
+  background: var(--bg-card) !important;
+  backdrop-filter: var(--glass);
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+
+  .filter-header {
+    background: rgba(37,99,235,0.08) !important;
+    color: #fff !important;
+    border-bottom: 1px solid var(--border) !important;
+    &:before { color: var(--blue-light) !important; }
+  }
+
+  .filter-title, a.filter-title { color: #fff !important; }
+
+  .filter-block.bottom-line { border-bottom: 1px solid var(--border) !important; }
+
+  .nice-select {
+    background: rgba(255,255,255,0.05) !important;
+    border: 1px solid var(--border) !important;
+    color: #fff !important;
+    border-radius: 8px !important;
+    .option { color: #000; }
+  }
+
+  .main-title { color: #fff !important; }
+  .light-bg { background: rgba(37,99,235,0.06) !important; }
+
+  input[type="checkbox"] { accent-color: var(--blue); }
+  .filter-input-box label { color: var(--text-dim) !important; }
+}
+
+// ─── OFFCANVAS (mobile filter) ────────────────────────────────
+.offcanvas {
+  background: #0c1222 !important;
+  border-right: 1px solid var(--border) !important;
+}
+
+// ─── FEATURE / HOW-IT-WORKS CARDS ────────────────────────────
+.card-style-four {
+  background: var(--bg-card) !important;
+  backdrop-filter: var(--glass);
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  box-shadow: none !important;
+  transition: all 0.3s !important;
+
+  .title { color: #fff !important; }
+  .total-job { color: var(--text-dim) !important; }
+  .icon { border-color: var(--border) !important; background: rgba(37,99,235,0.1) !important; }
+
+  &:hover {
+    border-color: var(--border-hov) !important;
+    box-shadow: 0 0 0 1px rgba(37,99,235,0.4), 0 12px 40px rgba(0,0,0,0.3) !important;
+    transform: translateY(-4px) !important;
+  }
+  &:hover .title { color: var(--blue-light) !important; }
+  &:hover .icon { background: var(--blue) !important; border-color: var(--blue) !important; }
+}
+
+.card-style-five {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  padding: 30px !important;
+  transition: all 0.3s !important;
+
+  .numb { background: var(--blue) !important; }
+  h6, p { color: var(--text-dim) !important; }
+
+  &:hover {
+    border-color: var(--border-hov) !important;
+    box-shadow: 0 0 0 1px rgba(37,99,235,0.3) !important;
+  }
+
+  &:before { background: var(--blue) !important; }
+}
+
+// ─── TESTIMONIALS ────────────────────────────────────────────
+.feedback-block-one {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  backdrop-filter: var(--glass);
+
+  .rating li { color: #f59e0b !important; }
+  p { color: var(--text-dim) !important; }
+  .name { color: #fff !important; }
+}
+
+// ─── BLOG CARDS ──────────────────────────────────────────────
+.blog-meta-one {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  overflow: hidden;
+  transition: all 0.3s !important;
+
+  .post-meta a { color: var(--text-dim) !important; }
+  h4 a { color: #fff !important; }
+  .date { color: var(--text-dim) !important; }
+
+  &:hover {
+    border-color: var(--border-hov) !important;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3) !important;
+    transform: translateY(-3px) !important;
+  }
+}
+
+// ─── FANCY BANNER ────────────────────────────────────────────
+.fancy-banner-one {
+  background: linear-gradient(135deg, rgba(37,99,235,0.15), rgba(29,78,216,0.1)) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 24px !important;
+  backdrop-filter: var(--glass);
+}
+
+// ─── BREADCRUMB ──────────────────────────────────────────────
+.job-breadcrumb-one, .inner-banner-one {
+  background: linear-gradient(135deg, #060b18, #0d1627) !important;
+  border-bottom: 1px solid var(--border);
+
+  h2 { color: #fff !important; }
+  nav.breadcrumb li a { color: var(--text-dim) !important; }
+  nav.breadcrumb li.active, .breadcrumb-item.active { color: var(--blue-light) !important; }
+  .breadcrumb-item + .breadcrumb-item::before { color: var(--text-dim) !important; }
+}
+
+// ─── JOB DETAILS ─────────────────────────────────────────────
+.job-details {
+  .details-post-data {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius) !important;
+    padding: 30px !important;
+    backdrop-filter: var(--glass);
+  }
+
+  .post-date { color: var(--text-dim) !important; }
+  .post-title { color: #fff !important; }
+
+  .post-block {
+    border: 1px solid var(--border) !important;
+    border-radius: 12px !important;
+    padding: 24px !important;
+
+    .block-numb {
+      background: var(--blue) !important;
+      box-shadow: 0 4px 12px var(--blue-glow);
+    }
+    .block-title { color: #fff !important; }
+    p, li { color: var(--text-dim) !important; }
+  }
+
+  .job-company-info {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius) !important;
+    padding: 30px !important;
+    backdrop-filter: var(--glass);
+
+    .text-dark { color: #fff !important; }
+    .job-meta-data li span { color: var(--text-dim) !important; }
+    .job-meta-data li div { color: #fff !important; }
+
+    .job-tags a {
+      background: rgba(37,99,235,0.12) !important;
+      border: 1px solid var(--border) !important;
+      color: var(--blue-light) !important;
+      border-radius: 6px !important;
+      &:hover { background: var(--blue) !important; color: #fff !important; }
+    }
+
+    .website-btn {
+      border: 1px solid var(--border) !important;
+      color: var(--text) !important;
+      border-radius: 8px !important;
+      &:hover { border-color: var(--blue) !important; color: var(--blue-light) !important; }
+    }
+  }
+}
+
+// ─── PAGINATION ──────────────────────────────────────────────
+.pagination-one li a, .react-paginate li a {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text-dim) !important;
+  border-radius: 8px !important;
+  &:hover, &.active {
+    background: var(--blue) !important;
+    color: #fff !important;
+    border-color: var(--blue) !important;
+  }
+}
+
+// ─── REGISTER / LOGIN ─────────────────────────────────────────
+.user-data-form {
+  background: var(--bg-card) !important;
+  backdrop-filter: var(--glass);
+  border: 1px solid var(--border) !important;
+  border-radius: 24px !important;
+  padding: 40px !important;
+
+  h2 { color: #fff !important; }
+}
+
+.nav-tabs {
+  border: none !important;
+  background: rgba(255,255,255,0.05) !important;
+  border-radius: 12px !important;
+  padding: 4px !important;
+
+  .nav-item .nav-link {
+    border: none !important;
+    color: var(--text-dim) !important;
+    border-radius: 8px !important;
+    &.active {
+      background: var(--blue) !important;
+      color: #fff !important;
+    }
+    &:hover:not(.active) { color: #fff !important; }
+  }
+}
+
+.input-group-meta {
+  label { color: var(--text-dim) !important; }
+  input, textarea, select {
+    background: rgba(255,255,255,0.06) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 10px !important;
+    color: #fff !important;
+    &::placeholder { color: rgba(255,255,255,0.3) !important; }
+    &:focus {
+      border-color: var(--blue) !important;
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.15) !important;
+      background: rgba(255,255,255,0.08) !important;
+    }
+  }
+}
+
+.agreement-checkbox label { color: var(--text-dim) !important; }
+.agreement-checkbox a { color: var(--blue-light) !important; }
+
+.social-use-btn {
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 10px !important;
+  color: var(--text) !important;
+  &:hover { border-color: var(--blue) !important; }
+}
+
+// ─── LOGIN MODAL ─────────────────────────────────────────────
+.modal-content {
+  background: #0c1222 !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 20px !important;
+  color: var(--text) !important;
+
+  .modal-header {
+    border-bottom: 1px solid var(--border) !important;
+    .btn-close { filter: invert(1) !important; }
+    .modal-title { color: #fff !important; }
+  }
+  .modal-body { background: transparent !important; }
+}
+
+// ─── FOOTER ──────────────────────────────────────────────────
+.theme-footer-one, .theme-footer-two {
+  background: #050810 !important;
+  border-top: 1px solid var(--border) !important;
+
+  h5, h4, .footer-title { color: #fff !important; }
+  p, li, a { color: var(--text-dim) !important; }
+  a:hover { color: var(--blue-light) !important; }
+  .bottom-footer { border-top: 1px solid var(--border) !important; }
+}
+
+// ─── DASHBOARD ───────────────────────────────────────────────
+.dash-aside-navbar {
+  background: #060b18 !important;
+  border-right: 1px solid var(--border) !important;
+
+  .user-name { color: #fff !important; }
+  .nav-link, .d-flex.w-100 span { color: var(--text-dim) !important; }
+
+  .dasboard-main-nav a:hover span,
+  .dasboard-main-nav a.active span { color: #fff !important; }
+
+  .dasboard-main-nav a.active {
+    background: rgba(37,99,235,0.15) !important;
+    border-left: 3px solid var(--blue) !important;
+  }
+
+  .logout-btn {
+    color: var(--text-dim) !important;
+    background: none !important;
+    border: none !important;
+    &:hover { color: #ef4444 !important; }
+  }
+
+  .profile-complete-status {
+    .progress-value { color: var(--blue-light) !important; }
+    .progress-line { background: var(--border) !important; }
+    .inner-line { background: var(--blue) !important; }
+    p { color: var(--text-dim) !important; }
+  }
+}
+
+.dashboard-body {
+  background: transparent !important;
+
+  .main-title { color: #fff !important; }
+}
+
+.dash-card-one {
+  background: var(--bg-card) !important;
+  backdrop-filter: var(--glass);
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  transition: all 0.3s !important;
+
+  .value { color: #fff !important; font-size: 28px; }
+  span { color: var(--text-dim) !important; }
+  .icon {
+    background: rgba(37,99,235,0.15) !important;
+    border: 1px solid rgba(37,99,235,0.2) !important;
+  }
+
+  &:hover {
+    border-color: var(--border-hov) !important;
+    box-shadow: 0 0 0 1px rgba(37,99,235,0.3), 0 8px 30px rgba(0,0,0,0.3) !important;
+  }
+}
+
+.user-activity-chart, .recent-job-tab {
+  background: var(--bg-card) !important;
+  backdrop-filter: var(--glass);
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+
+  .dash-title-two { color: #fff !important; border-bottom: 1px solid var(--border) !important; }
+  .job-item-list { border-bottom: 1px solid var(--border) !important; }
+  .job-item-list h6 a { color: #fff !important; }
+  .meta span { color: var(--text-dim) !important; }
+}
+
+.bg-white.card-box, .card-box {
+  background: var(--bg-card) !important;
+  backdrop-filter: var(--glass);
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+}
+
+.dash-input-wrapper {
+  label { color: var(--text-dim) !important; }
+  input, textarea, select {
+    background: rgba(255,255,255,0.05) !important;
+    border: 1px solid var(--border) !important;
+    color: #fff !important;
+    border-radius: 10px !important;
+    &::placeholder { color: rgba(255,255,255,0.25) !important; }
+    &:focus {
+      border-color: var(--blue) !important;
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.15) !important;
+      outline: none !important;
+    }
+  }
+  .nice-select {
+    background: rgba(255,255,255,0.05) !important;
+    border: 1px solid var(--border) !important;
+    color: #fff !important;
+    border-radius: 10px !important;
+    .option { color: #000; }
+    &:focus { border-color: var(--blue) !important; }
+  }
+}
+
+.skill-input-data button {
+  background: rgba(37,99,235,0.12) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--blue-light) !important;
+  border-radius: 6px !important;
+  padding: 4px 12px !important;
+  margin: 4px !important;
+  &:hover { background: rgba(239,68,68,0.15) !important; border-color: #ef4444 !important; color: #ef4444 !important; }
+}
+
+.dashboard-header {
+  background: transparent !important;
+  border-bottom: 1px solid var(--border) !important;
+  .btn-one, .notification-btn { color: var(--text-dim) !important; }
+}
+
+// Job table in dashboard
+.job-alert-table {
+  thead tr th { color: var(--text-dim) !important; border-bottom: 1px solid var(--border) !important; }
+  tbody tr td { color: var(--text) !important; border-bottom: 1px solid rgba(255,255,255,0.04) !important; }
+  tbody tr:hover td { background: rgba(37,99,235,0.05) !important; }
+}
+
+.badge.bg-success { background: rgba(34,197,94,0.2) !important; color: #4ade80 !important; border: 1px solid rgba(34,197,94,0.3); }
+.badge.bg-secondary { background: rgba(100,116,139,0.2) !important; color: #94a3b8 !important; border: 1px solid rgba(100,116,139,0.3); }
+.badge.bg-danger { background: rgba(239,68,68,0.2) !important; color: #f87171 !important; border: 1px solid rgba(239,68,68,0.3); }
+
+// ─── CANDIDATE CARDS ─────────────────────────────────────────
+.candidate-profile-card {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  backdrop-filter: var(--glass);
+  transition: all 0.3s !important;
+
+  .name, h5, h6 { color: #fff !important; }
+  .post, p { color: var(--text-dim) !important; }
+
+  .skills li {
+    background: rgba(37,99,235,0.1) !important;
+    color: var(--blue-light) !important;
+    border: 1px solid rgba(37,99,235,0.2) !important;
+    border-radius: 6px !important;
+  }
+
+  &:hover {
+    border-color: var(--border-hov) !important;
+    box-shadow: 0 0 0 1px rgba(37,99,235,0.3), 0 12px 40px rgba(0,0,0,0.3) !important;
+    transform: translateY(-3px) !important;
+  }
+}
+
+// ─── COMPANY CARDS ───────────────────────────────────────────
+.company-card-one {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  backdrop-filter: var(--glass);
+  transition: all 0.3s !important;
+
+  h6 a, .name { color: #fff !important; }
+  span, .location { color: var(--text-dim) !important; }
+
+  &:hover {
+    border-color: var(--border-hov) !important;
+    box-shadow: 0 0 0 1px rgba(37,99,235,0.3), 0 12px 40px rgba(0,0,0,0.3) !important;
+    transform: translateY(-3px) !important;
+  }
+}
+
+// ─── UPPER FILTER BAR ────────────────────────────────────────
+.upper-filter {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 12px !important;
+  padding: 12px 20px !important;
+  backdrop-filter: var(--glass);
+
+  .total-job-found { color: var(--text-dim) !important; }
+  .text-dark { color: #fff !important; }
+}
+
+.style-changer-btn {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text-dim) !important;
+  &:hover, &.active {
+    background: var(--blue) !important;
+    border-color: var(--blue) !important;
+    color: #fff !important;
+  }
+}
+
+// ─── PRICING SECTION ─────────────────────────────────────────
+.pricing-table-one {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  backdrop-filter: var(--glass);
+  transition: all 0.3s !important;
+
+  &.active, &:hover {
+    border-color: var(--border-hov) !important;
+    box-shadow: 0 0 0 1px rgba(37,99,235,0.4), 0 12px 40px rgba(0,0,0,0.3) !important;
+  }
+
+  .pack-name { color: #fff !important; }
+  .price { color: var(--blue-light) !important; }
+  li { color: var(--text-dim) !important; }
+}
+
+// ─── NiceSelect global ───────────────────────────────────────
+.nice-select {
+  &:after { border-color: var(--text-dim) !important; }
+  .list {
+    background: #0c1222 !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 12px !important;
+    .option {
+      color: var(--text) !important;
+      &:hover, &.selected { background: rgba(37,99,235,0.15) !important; color: #fff !important; }
+    }
+  }
+}
+
+// ─── SAVED JOB AREA ──────────────────────────────────────────
+.job-list-one.style-two {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  backdrop-filter: var(--glass);
+  transition: all 0.3s !important;
+  padding: 20px 24px !important;
+
+  .title { color: #fff !important; }
+  .job-duration { color: var(--blue-light) !important; }
+  .job-location a { color: var(--text-dim) !important; }
+
+  &:hover {
+    border-color: var(--border-hov) !important;
+    box-shadow: 0 0 0 1px rgba(37,99,235,0.3), 0 8px 30px rgba(0,0,0,0.3) !important;
+    transform: translateY(-2px) !important;
+  }
+}
+
+// ─── FAQ ─────────────────────────────────────────────────────
+.faq-nav-pills .nav-link {
+  color: var(--text-dim) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px !important;
+  background: transparent !important;
+  &.active {
+    background: var(--blue) !important;
+    color: #fff !important;
+  }
+}
+
+.accordion-item {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 12px !important;
+  margin-bottom: 8px;
+
+  .accordion-button {
+    background: transparent !important;
+    color: #fff !important;
+    border-radius: 12px !important;
+    &:not(.collapsed) { color: var(--blue-light) !important; box-shadow: none !important; }
+    &::after { filter: invert(1); }
+  }
+  .accordion-body { color: var(--text-dim) !important; }
+}
+
+// ─── CONTACT ─────────────────────────────────────────────────
+.contact-section {
+  input, textarea {
+    background: rgba(255,255,255,0.05) !important;
+    border: 1px solid var(--border) !important;
+    color: #fff !important;
+    border-radius: 10px !important;
+    &::placeholder { color: rgba(255,255,255,0.3) !important; }
+    &:focus { border-color: var(--blue) !important; }
+  }
+  label { color: var(--text-dim) !important; }
+}
+
+// ─── ABOUT US ────────────────────────────────────────────────
+.about-us-section {
+  .counter-info { color: var(--blue-light) !important; }
+}
+
+// ─── MISC ────────────────────────────────────────────────────
+.text-dark { color: #fff !important; }
+.title-one h2, .title-two h2 { color: #fff !important; }
+.title-one p, .title-two p { color: var(--text-dim) !important; }
+
+.main-page-wrapper { overflow-x: hidden; }
+.bg-dark-none { background: transparent !important; }
+.border-top { border-color: var(--border) !important; }
+
+// Slick Carousel dots/arrows
+.slick-dots li button:before { color: var(--border) !important; }
+.slick-dots li.slick-active button:before { color: var(--blue) !important; }
+.slick-prev:before, .slick-next:before { color: var(--blue-light) !important; }
+
+// ─── ANIMATION: fade-in ──────────────────────────────────────
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.wow.fadeInUp { animation: fadeInUp 0.6s ease both; }

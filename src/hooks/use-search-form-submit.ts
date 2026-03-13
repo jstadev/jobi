@@ -35,14 +35,7 @@ const useSearchFormSubmit = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const queryParams = generateQueryParams();
-
-    if (queryParams) {
-      router.push(`/job-search?${queryParams}`);
-    } else {
-      router.push(`/`);
-      setCategoryVal("");
-      setLocationVal("");
-    }
+    router.push(queryParams ? `/job-grid-v3?${queryParams}` : `/job-grid-v3`);
   };
  
 

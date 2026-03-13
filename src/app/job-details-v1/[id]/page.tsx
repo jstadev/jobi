@@ -6,36 +6,31 @@ import JobPortalIntro from "@/app/components/job-portal-intro/job-portal-intro";
 import JobDetailsBreadcrumb from "@/app/components/jobs/breadcrumb/job-details-breadcrumb";
 import RelatedJobs from "@/app/components/jobs/related-jobs";
 import FooterOne from "@/layouts/footers/footer-one";
-import job_data from "@/data/job-data";
+import { createClient } from "@/utils/supabase/server";
 
-const JobDetailsDynamicPage = ({ params }: { params: { id: string } }) => {
-  const job = job_data.find((j) => Number(j.id) === Number(params.id));
+const JobDetailsDynamicPage = async ({ params }: { params: { id: string } }) => {
+  const supabase = createClient();
+  const { data: job } = await supabase
+    .from("jobs")
+    .select(`*, companies (id, name, logo_url, location, website, description)`)
+    .eq("id", params.id)
+    .single();
+
   return (
     <Wrapper>
       <div className="main-page-wrapper">
-        {/* header start */}
         <Header />
-        {/* header end */}
-
-        {/* job details breadcrumb start */}
         <JobDetailsBreadcrumb />
-        {/* job details breadcrumb end */}
-
-        {/* job details area start */}
-        {job && <JobDetailsV1Area job={job} />}
-        {/* job details area end */}
-
-        {/* related job start */}
-        {job && <RelatedJobs category={job.category} />}
-        {/* related job end */}
-
-        {/* job portal intro start */}
+        {job ? (
+          <JobDetailsV1Area job={job} />
+        ) : (
+          <div className="container py-5 text-center" style={{ color: "rgba(226,232,240,0.5)" }}>
+            Job not found.
+          </div>
+        )}
+        {job && <RelatedJobs categories={job.categories || []} excludeId={job.id} />}
         <JobPortalIntro />
-        {/* job portal intro end */}
-
-        {/* footer start */}
         <FooterOne />
-        {/* footer end */}
       </div>
     </Wrapper>
   );

@@ -79,6 +79,10 @@ export const filterSlice = createSlice({
       state.category = [];
       state.tags = [];
       state.experience = [];
+      state.search_key = "";
+    },
+    setFilter: (state, action: PayloadAction<Partial<IFilterState>>) => {
+      return { ...state, ...action.payload };
     },
   },
 });
@@ -92,6 +96,7 @@ export const {
   resetFilter,
   setEnglishFluency,
   setSearchKey,
+  setFilter,
 } = filterSlice.actions;
 
 export default filterSlice.reducer;

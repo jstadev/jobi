@@ -73,9 +73,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const data = await res.json()
     if (!res.ok) { notifyError(data.error); throw new Error(data.error) }
 
-    // Auto-login after register
-    await login(email, password)
-    notifySuccess('Account created successfully!')
+    // Try auto-login (works if email confirmation is disabled in Supabase)
+    try {
+      await login(email, password)
+      notifySuccess('Account created successfully!')
+    } catch {
+      notifySuccess('Account created! Please check your email to confirm.')
+    }
   }
 
   async function logout() {

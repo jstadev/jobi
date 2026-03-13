@@ -14,9 +14,15 @@ export async function GET(request: NextRequest) {
   const salary_min = searchParams.get('salary_min')
   const salary_max = searchParams.get('salary_max')
   const company = searchParams.get('company')
+  const sort = searchParams.get('sort')
   const page = parseInt(searchParams.get('page') || '1')
   const limit = parseInt(searchParams.get('limit') || '10')
   const offset = (page - 1) * limit
+
+  let orderCol = 'created_at'
+  let orderAsc = false
+  if (sort === 'salary_asc') { orderCol = 'salary_min'; orderAsc = true }
+  if (sort === 'salary_desc') { orderCol = 'salary_min'; orderAsc = false }
 
   let query = supabase
     .from('jobs')
@@ -26,7 +32,7 @@ export async function GET(request: NextRequest) {
       profiles!posted_by (id, name, avatar_url)
     `, { count: 'exact' })
     .eq('is_active', true)
-    .order('created_at', { ascending: false })
+    .order(orderCol, { ascending: orderAsc })
     .range(offset, offset + limit - 1)
 
   if (search) query = query.ilike('title', `%${search}%`)

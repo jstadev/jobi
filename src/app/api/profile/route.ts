@@ -45,14 +45,16 @@ export async function PUT(request: NextRequest) {
   const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
 
   // Update role-specific data
-  if (profile?.role === 'employer' && Object.keys(roleData).length > 0) {
-    const { name: companyName, logo_url, description, founded_year, company_size, industry } = roleData
-    await supabase.from('companies').upsert({
-      user_id: user.id,
-      name: companyName,
-      logo_url, description, founded_year, company_size, industry,
-      location,
-    })
+  if (profile?.role === 'employer') {
+    const { company_name, logo_url, description, founded_year, company_size, industry } = roleData
+    if (company_name || description || logo_url || industry) {
+      await supabase.from('companies').upsert({
+        user_id: user.id,
+        name: company_name,
+        logo_url, description, founded_year, company_size, industry,
+        location,
+      }, { onConflict: 'user_id' })
+    }
   }
 
   if (profile?.role === 'candidate' && Object.keys(roleData).length > 0) {
